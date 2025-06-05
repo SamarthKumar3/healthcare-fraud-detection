@@ -1,0 +1,15 @@
+WEEK 3: HYPERPARAMETER OPTIMIZATION RESULTS
+==================================================
+
+Final ROC-AUC: 0.7090
+
+Optimized Parameters:
+  n_estimators: 200
+  max_depth: 10
+  learning_rate: 0.2
+  subsample: 0.9
+  colsample_bytree: 0.9
+  reg_alpha: 0.5
+  reg_lambda: 2
+
+Model saved to: D:/Web Dev/healthcare-fraud-detection/models/xgboost_optimized_week3.pkl

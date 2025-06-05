@@ -1,0 +1,47 @@
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: fraud-detection-db
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_HOST_AUTH_METHOD: md5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./sql/init_database.sql:/docker-entrypoint-initdb.d/01_init.sql
+    ports:
+      - "${DB_PORT}:5432"
+    restart: unless-stopped
+    networks:
+      - fraud_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fraud_user -d frauddb"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # pgAdmin for database management (optional)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: fraud-detection-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - "8080:80"
+    depends_on:
+      - postgres
+    networks:
+      - fraud_network
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+volumes:
+  postgres_data:
+  pgadmin_data:
+
+networks:
+  fraud_network:
+    driver: bridge
