@@ -7,7 +7,7 @@ import os
 import json
 from pathlib import Path
 from typing import Dict, Any
-
+import streamlit as st
 # Load environment variables from .env file
 from dotenv import load_dotenv
 
@@ -21,6 +21,26 @@ else:
 
 class Config:
     """Configuration class that loads all settings from environment variables"""
+    
+    @property
+    def DB_CONFIG(self):
+        if hasattr(st, 'secrets') and 'database' in st.secrets:
+            return {
+                'host': st.secrets.database.DB_HOST,
+                'port': st.secrets.database.DB_PORT,
+                'database': st.secrets.database.DB_NAME,
+                'user': st.secrets.database.DB_USER,
+                'password': st.secrets.database.DB_PASSWORD,
+            }
+        else:
+            # Fallback to environment variables
+            return {
+                'host': os.getenv('DB_HOST', 'localhost'),
+                'port': os.getenv('DB_PORT', '5433'),
+                'database': os.getenv('DB_NAME', 'frauddb'),
+                'user': os.getenv('DB_USER'),
+                'password': os.getenv('DB_PASSWORD'),
+            }
     
     # ===========================================
     # DATABASE CONFIGURATION

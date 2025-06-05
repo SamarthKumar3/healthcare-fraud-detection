@@ -7,7 +7,7 @@ import random
 import json
 import os
 from config import config
-
+import streamlit as st
 class DatabaseSeeder:
     """
     Seed the database with realistic dummy claims that will showcase the fraud detection system
@@ -15,9 +15,9 @@ class DatabaseSeeder:
     
     def __init__(self, db_config=None):
         if db_config is None:
-            self.db_config = config.DB_CONFIG
+            self.db_params = config.DB_CONFIG
         else:
-            self.db_config = db_config
+            self.db_params = db_config
     
     def get_connection(self):
         """Get database connection"""

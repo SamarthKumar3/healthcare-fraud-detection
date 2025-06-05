@@ -30,9 +30,6 @@ venv/
 env/
 ENV/
 
-# Models (if large)
-models/*.pkl
-models/*.joblib
 
 # Data files (if sensitive/large)
 data/raw/*.csv

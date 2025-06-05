@@ -156,7 +156,7 @@ CREATE TRIGGER update_claims_timestamp
     BEFORE UPDATE ON claims
     FOR EACH ROW EXECUTE FUNCTION update_timestamp();
 
--- Grant permissions to the fraud_user
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO fraud_user;
-GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO fraud_user;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO fraud_user;
+-- Grant permissions to the actual Neon user
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO neondb_owner;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO neondb_owner;
+GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO neondb_owner;
